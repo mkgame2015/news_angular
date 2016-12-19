@@ -1,6 +1,6 @@
 <div class="weui-tab">
     <div class="weui-navbar">
-        <div class="weui-navbar__item weui-bar__item_on" ng-repeat="tab in tabs" ng-click="toggleTab(tab.id,tab.url)">
+        <div class="weui-navbar__item  {{id==tab.id?'weui-bar__item_on':''}}" ng-repeat="tab in tabs" ng-click="toggleTab(tab.id,tab.url)">
             {{tab.name}}
         </div>
     </div>

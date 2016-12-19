@@ -11,10 +11,11 @@ app.config(function($stateProvider){
     })
 })
 app.controller("indexCtrl",function($scope,$rootScope,$window){
-    $rootScope.id = id;
+//  $rootScope.id = id;
     $scope.tabs = [{
         id:1,
         name:"国内最新",
+        
         url:"#/index/list"
     },{
         id:2,
@@ -35,5 +36,5 @@ app.controller("indexCtrl",function($scope,$rootScope,$window){
     }
 })
 app.controller("listCtrl",function($scope,$http){
-
+        
 })
