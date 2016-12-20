@@ -35,6 +35,24 @@ app.controller("indexCtrl",function($scope,$rootScope,$window){
         $window.location.href = url;
     }
 })
-app.controller("listCtrl",function($scope,$http){
-        
-})
+app.controller("listCtrl",function($scope,$http,apiUrl){
+	$scope.page = 1;
+	$scope.channelId = '5572a109b3cdc86cf39001db';
+     $http.jsonp(apiUrl,{
+     	params:{
+			page:$scope.page,
+			channelId:'5572a109b3cdc86cf39001db',
+			channelName:'国内最新',
+			callback:'JSON_CALLBACK'
+     	}
+     }).success(function(data){
+     	console.log(data);
+     })
+});
+app.value('apiUrl','http://localhost/news.php');
+//app.value('apiUrl','http://localhost:12345/news/dist/js/test.json');
+//设置api请求的方法，发布时候用jsonp，get只是请求用来请求测试的json文件～
+app.value('apiMethod','get');
+//测试数据
+//var news = json;
+//console.log(news);
