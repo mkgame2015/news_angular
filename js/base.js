@@ -37,19 +37,20 @@ app.controller("indexCtrl",function($scope,$rootScope,$window){
 })
 app.controller("listCtrl",function($scope,$http,apiUrl){
 	$scope.page = 1;
-	$scope.channelId = '5572a109b3cdc86cf39001db';
-     $http.jsonp(apiUrl,{
+     $http.jsonp("news2.php",{
      	params:{
-			page:$scope.page,
-			channelId:'5572a109b3cdc86cf39001db',
-			channelName:'国内最新',
+//			page:$scope.page,
+//			channelId:'5572a109b3cdc86cf39001db',
+//			channelName:'国内最新',
 			callback:'JSON_CALLBACK'
      	}
      }).success(function(data){
      	console.log(data);
+     	$scope.newslist = data.showapi_res_body.pagebean.contentlist;
+     	console.log($scope.newslist);
      })
 });
-app.value('apiUrl','http://localhost/news.php');
+app.value('apiUrl','http://localhost/news?');
 //app.value('apiUrl','http://localhost:12345/news/dist/js/test.json');
 //设置api请求的方法，发布时候用jsonp，get只是请求用来请求测试的json文件～
 app.value('apiMethod','get');
