@@ -38,7 +38,7 @@ app.controller("indexCtrl",function($scope,$rootScope,$window){
 app.controller("listCtrl",function($scope,$http,apiUrl){
 	$scope.page = 1;
 	$scope.channelId = '5572a109b3cdc86cf39001db';
-     $http.jsonp(apiUrl,{
+     $http.jsonp("news.php",{
      	params:{
 			page:$scope.page,
 			channelId:'5572a109b3cdc86cf39001db',
