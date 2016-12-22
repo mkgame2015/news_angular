@@ -43,8 +43,20 @@ app.controller("indexCtrl", function($scope, $rootScope, $window) {
 		$window.location.href = url;
 	}
 })
-app.controller("listCtrl", function($scope, $http) {
+app.controller("listCtrl", function($scope, $http,swiperImg) {
+	//加载中样式默认状态
+	$scope.isShow = true;
+	//默认隐藏排序选项
+	$scope.sortShow = false;
+	//定义排序标准,按时间排序
+	$scope.type = 'pubDate';
+	//定义排序类型 ,
+	$scope.switchCp = false;
+	//定义搜索栏起始状态
+	$scope.issearch = false;
+	//定义获取新闻起始页
 	$scope.page = 1;
+	//定义存储新闻数组
 	$scope.newslist = [];
 	//定义加载新闻函数
 	var load = function(){
@@ -56,16 +68,71 @@ app.controller("listCtrl", function($scope, $http) {
 					callback: 'JSON_CALLBACK'
 				}
 			}).success(function(data) {
+				$scope.isShow = true;
 				console.log(data);
 				$scope.newslist = $scope.newslist.concat(data.showapi_res_body.pagebean.contentlist);
-				console.log($scope.newslist);
+//				console.log($scope.newslist);
+				//定义轮播图获取函数
+				$scope.swiperImgs = swiperImg.getImgs($scope.newslist);
+//				console.log($scope.swiperImgs);
 			})
 	}	
-		//第一次加载
+	//第一次加载
 	load();
 	//定义加载更多的函数
 	$scope.loadmore = function() {
+		$scope.isShow = false;
 		$scope.page++;
 		load();
 	}
+	//定义搜索
+	$scope.search = function(){
+		$scope.issearch = true;
+	};
+	$scope.searchClear = function(){
+		$scope.issearch = false;
+	}
 });
+
+//组件定义
+app.directive("newslist",function(){
+	return{
+		templateUrl:"directive/newslist.html"
+	}
+});
+app.directive("search",function(){
+	return{
+		templateUrl:"directive/search.html"
+	}
+});
+app.directive("swiper",function(){
+	return{
+		templateUrl:"directive/swiper.html",
+		
+		link:function(scope,ele,attr){
+			var swiper = new Swiper('.swiper-container',{
+				pagination:'.swiper-pagination',
+				paginationClickable:true
+			});
+		}
+	}
+});
+//定义自定义服务
+app.service("swiperImg",function(){
+	return {
+		getImgs:function(data,num){
+			if(num){}else{
+				num = 3;
+			}
+			var imgs = [];
+			angular.forEach(data,function(data,index){
+				if(data.havePic&&imgs.length <=num){
+					data.id = index;
+					imgs.push(data);
+				}
+			});
+//			console.log(imgs);
+			return imgs;
+		}
+	}
+})
