@@ -6,8 +6,8 @@
     $paramArr = array(
          'showapi_appid'=> $showapi_appid,
          'channelId'=>$_GET['channelId'],
-         'channelName'=> $_GET['channelName'],
-         'title'=> "",
+         'channelName'=> "",
+         'title'=> '',
          'page'=> $_GET['page'],
          'needContent'=> "",
          'needHtml'=> "",

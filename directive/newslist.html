@@ -1,7 +1,7 @@
 <div class="weui-panel weui-panel_access">
     <div class="weui-panel__hd" ng-click = "sortShow = true">点击此处排序新闻</div>
     <div class="weui-panel__bd">
-        <a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg" ng-repeat = "news in newslist|filter:searchName|orderBy: news[type] :switchCp">
+        <a href="#/detail/{{channelId}}/{{news.pubDate}};" class="weui-media-box weui-media-box_appmsg" ng-repeat = "news in newslist|filter:searchName|orderBy: news[type] :switchCp">
             <div class="weui-media-box__hd" ng-show="{{news.havePic}}">
                 <img class="weui-media-box__thumb" ng-src="{{news.imageurls[0].url}}" alt="">
             </div>

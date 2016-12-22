@@ -1,0 +1,17 @@
+<article class="weui-article">
+	<section>
+		<h1 class="title" style="font-weight: 500;">{{new.title}}</h1>
+		<section>
+			<h5>{{'来源：'+new.source}}</h5>
+			<p>
+				{{new.desc}}
+			</p>
+			<p ng-show="new.havePic" style="text-align: center;" ng-repeat="img in new.imageurls">
+				<img ng-click="showGallery(true,img.url)" ng-src="{{img.url}}" alt="">
+				<span class="weui-form-preview__ft">
+					<a class="weui-form-preview__btn weui-form-preview__btn_primary" ng-click="showGallery(true,img.url)">点击查看大图</a>
+				</span>
+			</p>
+		</section>
+	</section>
+</article>
