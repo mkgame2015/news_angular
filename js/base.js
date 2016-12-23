@@ -26,6 +26,7 @@ app.config(function($stateProvider) {
 		controller: "fourthlistCtrl"
 	});
 });
+
 app.controller("indexCtrl", function($scope, $rootScope, $window) {
 	//  $rootScope.id = id;
 	$scope.tabs = [{
