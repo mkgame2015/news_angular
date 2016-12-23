@@ -9,7 +9,7 @@ app.config(function($stateProvider) {
 			templateUrl: "template/list.html",
 			controller: "listCtrl"
 		}).state("detail", {
-			url: "/detail/:channelId/:title",
+			url: "/detail/:channelIdx/:channelId/:nid",
 			templateUrl: "template/detail.html",
 			controller: "detailCtrl"
 		})
@@ -47,7 +47,9 @@ app.controller("indexCtrl", function($scope, $rootScope, $window) {
 		$window.location.href = url;
 	}
 })
-app.controller("listCtrl", function($scope, $http, swiperImg) {
+app.controller("listCtrl", function($scope, $http,$window,swiperImg) {
+	//返回顶层的默认隐藏
+	$scope.topShow = false;
 	//加载中样式默认状态
 	$scope.isShow = true;
 	//默认隐藏排序选项
@@ -63,6 +65,7 @@ app.controller("listCtrl", function($scope, $http, swiperImg) {
 	//定义存储新闻数组
 	$scope.newslist = [];
 	$scope.channelId = '5572a108b3cdc86cf39001cd';
+	$scope.channelIdx = 1;
 	//定义加载新闻函数
 	var load = function() {
 			$http.jsonp("news2.php", {
@@ -76,6 +79,11 @@ app.controller("listCtrl", function($scope, $http, swiperImg) {
 				$scope.isShow = true;
 				console.log(data);
 				$scope.newslist = $scope.newslist.concat(data.showapi_res_body.pagebean.contentlist);
+				console.log($scope.newslist.length)
+				angular.forEach($scope.newslist,function(data,index){
+					data.nid = index;
+				});
+				console.log($scope.newslist);
 				//				console.log($scope.newslist);
 				//定义轮播图获取函数
 				$scope.swiperImgs = swiperImg.getImgs($scope.newslist);
@@ -86,33 +94,90 @@ app.controller("listCtrl", function($scope, $http, swiperImg) {
 	load();
 	//定义加载更多的函数
 	$scope.loadmore = function() {
+			$scope.topShow = true;
 			$scope.isShow = false;
 			$scope.page++;
 			load();
 		}
-		//定义搜索
+	//定义搜索
 	$scope.search = function() {
 		$scope.issearch = true;
 	};
 	$scope.searchClear = function() {
 		$scope.issearch = false;
+	};
+	//返回页面顶端的函数定义
+	$scope.goPageTop = function(){
+		$window.scrollTo(0,0);
+		$scope.topShow = false;
+		
 	}
 });
 app.controller("detailCtrl", function($scope, $http, $state) {
-	$scope.title = $state.params.title;
-	console.log($scope.title);
+	$scope.isShow = false;
+	$scope.galleryShow = false;
+	$scope.nid = parseInt($state.params.nid);
+	$scope.nidnext = $scope.nid +1 ;
 	$scope.channelId = $state.params.channelId;
-	$scope.page = 1;
-	$scope.new = "";
+	$scope.channelIdx = parseInt($state.params.channelIdx);
+	if($scope.channelIdx == 1){
+		$scope.listurl = "#/index/list";
+	}else if($scope.channelIdx == 2){
+		$scope.listurl = "#/index/secondlist";
+	}else if($scope.channelIdx == 3){
+		$scope.listurl = "#/index/thirdlist"
+	};
+	$scope.showGallery = function(url){
+		$scope.galleryShow = true;
+		$scope.bgurl = url;
+		console.log($scope.bgurl);
+	}
+//	$scope.page = parseInt($scope.nid/20) + 1;
 	var load = function() {
+		var page = parseInt($scope.nid/20) + 1;
+		var idx = $scope.nid%20;
+		if(idx == 19){
 		$http.jsonp("news2.php", {
 			params: {
-				page: $scope.page,
+				page: page,
 				channelId: $scope.channelId,
 				callback: 'JSON_CALLBACK'
 			}
 		}).success(function(data) {
+			$scope.new = data.showapi_res_body.pagebean.contentlist[idx];
+			$scope.isShow = true;
 			
+		});
+		$http.jsonp("news2.php", {
+			params: {
+				page: page+1,
+				channelId: $scope.channelId,
+				callback: 'JSON_CALLBACK'
+			}
+		}).success(function(data) {
+			$scope.newnext = data.showapi_res_body.pagebean.contentlist[0];
+		});
+		}else{
+			$http.jsonp("news2.php", {
+			params: {
+				page: page,
+				channelId: $scope.channelId,
+				callback: 'JSON_CALLBACK'
+			}
+		}).success(function(data) {
+			$scope.new = data.showapi_res_body.pagebean.contentlist[idx];
+			$scope.newnext = data.showapi_res_body.pagebean.contentlist[idx+1];
+			$scope.isShow = true;			
+		})
+		}
+		$http.jsonp("news2.php", {
+			params: {
+				page: page,
+				channelId: $scope.channelId,
+				callback: 'JSON_CALLBACK'
+			}
+		}).success(function(data) {
+			$scope.new = data.showapi_res_body.pagebean.contentlist[idx];
 		})
 	}
 	load();

@@ -1,28 +1,28 @@
 <div class="weui-panel weui-panel_access">
-    <div class="weui-panel__hd" ng-click = "sortShow = true">点击此处排序新闻</div>
-    <div class="weui-panel__bd">
-        <a href="#/detail/{{channelId}}/{{news.pubDate}};" class="weui-media-box weui-media-box_appmsg" ng-repeat = "news in newslist|filter:searchName|orderBy: news[type] :switchCp">
-            <div class="weui-media-box__hd" ng-show="{{news.havePic}}">
-                <img class="weui-media-box__thumb" ng-src="{{news.imageurls[0].url}}" alt="">
-            </div>
-            <div class="weui-media-box__bd">
-                <h4 class="weui-media-box__title">{{news.title?news.title:"加载中..."}}</h4>
-                <p class="weui-media-box__desc">{{news.desc?news.desc:"加载中..."}}</p>
-            </div>
-        </a>
-    </div>
-    <div class="weui-panel__ft" ng-click="loadmore()" ng-show = "isShow">
-        <a href="javascript:void(0);" class="weui-cell weui-cell_access weui-cell_link" >
-            <div class="weui-cell__bd">查看更多</div>
-            <span class="weui-cell__ft"></span>
-        </a>    
-    </div>
+	<div class="weui-panel__hd" ng-click="sortShow = true">点击此处排序新闻</div>
+	<div class="weui-panel__bd">
+		<a href="#/detail/{{channelIdx}}/{{channelId}}/{{news.nid}};" class="weui-media-box weui-media-box_appmsg" ng-repeat="news in newslist|filter:searchName|orderBy: news[type] :switchCp">
+			<div class="weui-media-box__hd" ng-show="{{news.havePic}}">
+				<img class="weui-media-box__thumb" ng-src="{{news.imageurls[0].url}}" alt="">
+			</div>
+			<div class="weui-media-box__bd">
+				<h4 class="weui-media-box__title">{{news.title?news.title:"加载中..."}}</h4>
+				<p class="weui-media-box__desc">{{news.desc?news.desc:"加载中..."}}</p>
+			</div>
+		</a>
+	</div>
+	<div class="weui-panel__ft" ng-click="loadmore()" ng-show="isShow">
+		<a href="javascript:void(0);" class="weui-cell weui-cell_access weui-cell_link">
+			<div class="weui-cell__bd">查看更多</div>
+			<span class="weui-cell__ft"></span>
+		</a>
+	</div>
 </div>
 <!--加载更多-->
 <!--样式1-->
 <div class="weui-loadmore" ng-hide="isShow">
-		<i class="weui-loading"></i>
-		<span class="weui-loadmore__tips">正在加载</span>
+	<i class="weui-loading"></i>
+	<span class="weui-loadmore__tips">正在加载</span>
 </div>
 <!--样式2-->
 <!--<div id="loadingToast" ng-high="isShow">
@@ -34,14 +34,23 @@
 </div>-->
 <!--actionsheet-->
 <div id="actionSheet_wrap">
-    <div class="weui-skin_android" id="weui-android-actionsheet" ng-show="sortShow">
-        <div class="weui-mask" ng-click = "sortShow = false"></div>
-        <div class="weui-actionsheet">
-            <div class="weui-actionsheet__menu">
-                <div class="weui-actionsheet__cell" ng-click = "sortShow = false;switchCp = false">看最新的新闻</div>
-                <div class="weui-actionsheet__cell" ng-click = "sortShow = false;switchCp = true">看以前的新闻</div>
-            </div>
-        </div>
-    </div>
+	<div class="weui-skin_android" id="weui-android-actionsheet" ng-show="sortShow">
+		<div class="weui-mask" ng-click="sortShow = false"></div>
+		<div class="weui-actionsheet">
+			<div class="weui-actionsheet__menu">
+				<div class="weui-actionsheet__cell" ng-click="sortShow = false;switchCp = false">看最新的新闻</div>
+				<div class="weui-actionsheet__cell" ng-click="sortShow = false;switchCp = true">看以前的新闻</div>
+			</div>
+		</div>
+	</div>
 </div>
 
+<!--toTop-->
+<a ng-show = "topShow" ng-click = "goPageTop()" href="javascript:;" id="goPageTop" style="width:42px; height:42px; margin-bottom:10px; border-radius:50%; background:url(http://n.sinaimg.cn/default/08a1a488/20160329/go_top_icon.png) no-repeat 0 0; background-size:42px auto; display: block;"></a>
+<style>
+	#goPageTop{
+		position: fixed;
+		bottom: 20px;
+		right: 20px;
+	}
+</style>

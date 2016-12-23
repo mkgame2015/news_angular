@@ -1,17 +1,81 @@
-<article class="weui-article">
+<article class="weui-article" ng-show = "isShow">
 	<section>
-		<h1 class="title" style="font-weight: 500;">{{new.title}}</h1>
+		<h1 class="title" style="font-weight: 900;">{{new.title}}</h1>
 		<section>
 			<h5>{{'来源：'+new.source}}</h5>
 			<p>
 				{{new.desc}}
 			</p>
 			<p ng-show="new.havePic" style="text-align: center;" ng-repeat="img in new.imageurls">
-				<img ng-click="showGallery(true,img.url)" ng-src="{{img.url}}" alt="">
+				<img ng-click="showGallery(img.url)" ng-src="{{img.url}}" alt="">
 				<span class="weui-form-preview__ft">
-					<a class="weui-form-preview__btn weui-form-preview__btn_primary" ng-click="showGallery(true,img.url)">点击查看大图</a>
+					<a class="weui-form-preview__btn weui-form-preview__btn_primary" ng-click="showGallery(img.url)">点击查看大图</a>
 				</span>
 			</p>
 		</section>
 	</section>
 </article>
+
+<!--next-->
+<div class="weui-form-preview" ng-show = "isShow">
+    <div class="weui-form-preview__bd">
+    	<p>
+            <label class="weui-form-preview__label">频道名称</label>
+            <span class="weui-form-preview__value">{{new.channelName}}</span>
+        </p>
+        <p>
+            <label class="weui-form-preview__label">发布时间</label>
+            <span class="weui-form-preview__value">{{new.pubDate}}</span>
+        </p>
+        <p>
+            <label class="weui-form-preview__label">新闻来源</label>
+            <span class="weui-form-preview__value">{{new.source}}</span>
+        </p>
+        
+    </div>
+    <div class="weui-form-preview__ft">
+        <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="{{new.link}}">查看原文</a>
+        <a class="weui-form-preview__btn weui-form-preview__btn_primary" href="#/detail/{{channelIdx}}/{{channelId}}/{{nidnext}}">下一条新闻</a>
+    </div>
+</div>
+<div class="weui-panel weui-panel_access" ng-show = "isShow">
+	<div class="weui-panel__hd">下一条新闻</div>
+	<div class="weui-panel__bd">
+		<a href="#/detail/{{channelIdx}}/{{channelId}}/{{nidnext}}" class="weui-media-box weui-media-box_appmsg">
+			<div class="weui-media-box__hd" ng-show="newnext.havePic">
+				<img class="weui-media-box__thumb" ng-src="{{newnext.imageurls[0].url}}" alt="">
+			</div>
+			<div class="weui-media-box__bd">
+				<h4 class="weui-media-box__title">{{newnext.title?newnext.title:"加载中..."}}</h4>
+				<p class="weui-media-box__desc">{{newnext.desc?newnext.desc:"加载中..."}}</p>
+			</div>
+		</a>
+	</div>
+	<div class="weui-panel__ft">
+		<a href="{{listurl}}" class="weui-cell weui-cell_access weui-cell_link">
+			<div class="weui-cell__bd">返回新闻列表</div>
+			<span class="weui-cell__ft"></span>
+		</a>
+	</div>
+</div>
+
+<!--gallery-->
+<div class="weui-gallery" ng-show="galleryShow" ng-click="galleryShow = !galleryShow">
+	<span class="weui-gallery__img" style="background-image: url({{bgurl}});"></span>
+	<div class="weui-gallery__opr">
+		<a href="javascript:" class="weui-gallery__del" style="color: white;">
+			<!--<i class="weui-icon-delete weui-icon_gallery-delete"></i>-->
+			返回
+		</a>
+	</div>
+</div>
+<!--加载中-->
+<div id="loadingToast" style="display:{{isShow?'none':'block'}};">
+
+	<!--<div class="weui-mask" id="iosMask" style="opacity: 1;"></div>-->
+    <div class="weui-mask_transparent" ></div>
+    <div class="weui-toast">
+        <i class="weui-loading weui-icon_toast"></i>
+        <p class="weui-toast__content">数据加载中</p>
+    </div>
+</div>
