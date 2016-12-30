@@ -24,7 +24,7 @@
 //       'needAllList'=> "",
 //       'maxResult'=> ""
     );
-     
+
     //创建参数(包括签名的处理)
     function createParam ($paramArr,$showapi_secret) {
          $paraStr = "";
@@ -42,13 +42,13 @@
          //echo "排好序的参数:".$signStr."<br>\r\n";
          return $paraStr;
     }
-     
+
  	$param = createParam($paramArr,$showapi_secret);
-    $url = 'http://route.showapi.com/109-35?'.$param; 
+    $url = 'http://route.showapi.com/109-35?'.$param;
 
     $result = file_get_contents($url);
 
     //$result = json_decode($result);
-    
+
     echo $_GET['callback'].'('.$result.')';
     ?>

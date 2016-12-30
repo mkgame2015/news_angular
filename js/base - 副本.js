@@ -1,5 +1,5 @@
 var app = angular.module("newsApp", ["ui.router", "ng.post"]);
-app.config(function($stateProvider,$urlRouterProvider) {
+app.config(function($stateProvider) {
 	$stateProvider.state("index", {
 		url: "/index",
 		templateUrl: "template/index.html",
@@ -25,8 +25,6 @@ app.config(function($stateProvider,$urlRouterProvider) {
 		templateUrl: "template/fourthlist.html",
 		controller: "fourthlistCtrl"
 	});
-	$urlRouterProvider.otherwise("/index/list");
-
 });
 
 app.controller("indexCtrl", function($scope, $rootScope, $window) {
@@ -83,13 +81,12 @@ app.controller("listCtrl", function($scope, $http, $window, swiperImg) {
 	$scope.channelIdx = 1;
 	//定义加载新闻函数
 	var load = function() {
-			$http.get("http://route.showapi.com/109-35?", {
+			$http.jsonp("news2.php", {
 				params: {
 					page: $scope.page,
 					channelId: $scope.channelId,
 					channelName: '国内焦点',
-					showapi_appid:'29306',
-        			showapi_sign:'545df128a7c84b279611932939d9a064'
+					callback: 'JSON_CALLBACK'
 				}
 			}).success(function(data) {
 				$scope.isShow = true;
@@ -129,7 +126,7 @@ app.controller("listCtrl", function($scope, $http, $window, swiperImg) {
 
 	}
 });
-
+  
 app.controller("secondlistCtrl", function($scope, $http, $window, swiperImg) {
 	//返回顶层的默认隐藏
 	$scope.topShow = false;
@@ -151,13 +148,12 @@ app.controller("secondlistCtrl", function($scope, $http, $window, swiperImg) {
 	$scope.channelIdx = 2;
 	//定义加载新闻函数
 	var load = function() {
-			$http.get("http://route.showapi.com/109-35?", {
+			$http.jsonp("news2.php", {
 				params: {
 					page: $scope.page,
 					channelId: $scope.channelId,
 					channelName: '科技焦点',
-        			showapi_appid:'29306',
-        			showapi_sign:'545df128a7c84b279611932939d9a064'
+					callback: 'JSON_CALLBACK'
 				}
 			}).success(function(data) {
 				$scope.isShow = true;
@@ -197,7 +193,7 @@ app.controller("secondlistCtrl", function($scope, $http, $window, swiperImg) {
 
 	}
 });
-
+  
 app.controller("thirdlistCtrl", function($scope, $http, $window, swiperImg) {
 	//返回顶层的默认隐藏
 	$scope.topShow = false;
@@ -219,14 +215,12 @@ app.controller("thirdlistCtrl", function($scope, $http, $window, swiperImg) {
 	$scope.channelIdx = 3;
 	//定义加载新闻函数
 	var load = function() {
-			$http.get("http://route.showapi.com/109-35?", {
+			$http.jsonp("news2.php", {
 				params: {
 					page: $scope.page,
 					channelId: $scope.channelId,
 					channelName: '游戏焦点',
-					showapi_appid:'29306',
-        			showapi_sign:'545df128a7c84b279611932939d9a064'
-
+					callback: 'JSON_CALLBACK'
 				}
 			}).success(function(data) {
 				$scope.isShow = true;
@@ -266,7 +260,7 @@ app.controller("thirdlistCtrl", function($scope, $http, $window, swiperImg) {
 
 	}
 });
-
+  
 app.controller("fourthlistCtrl", function($scope, $http, $window, swiperImg) {
 	//返回顶层的默认隐藏
 	$scope.topShow = false;
@@ -288,14 +282,12 @@ app.controller("fourthlistCtrl", function($scope, $http, $window, swiperImg) {
 	$scope.channelIdx = 4;
 	//定义加载新闻函数
 	var load = function() {
-			$http.get("http://route.showapi.com/109-35?", {
+			$http.jsonp("news2.php", {
 				params: {
 					page: $scope.page,
 					channelId: $scope.channelId,
 					channelName: '娱乐焦点',
-					showapi_appid:'29306',
-        			showapi_sign:'545df128a7c84b279611932939d9a064'
-
+					callback: 'JSON_CALLBACK'
 				}
 			}).success(function(data) {
 				$scope.isShow = true;
@@ -335,7 +327,7 @@ app.controller("fourthlistCtrl", function($scope, $http, $window, swiperImg) {
 
 	}
 });
-
+  
 app.controller("detailCtrl", function($scope, $http, $state) {
 	//定义加载中弹框的默认状态
 	$scope.isShow = false;
@@ -374,13 +366,11 @@ app.controller("detailCtrl", function($scope, $http, $state) {
 			var idx = $scope.nid % 20;
 			//判定下一条条新闻是否在下一个新闻页面
 			if(idx == 19) {
-			$http.get("http://route.showapi.com/109-35?", {
+				$http.jsonp("news2.php", {
 					params: {
 						page: page,
 						channelId: $scope.channelId,
-						showapi_appid:'29306',
-        				showapi_sign:'545df128a7c84b279611932939d9a064'
-
+						callback: 'JSON_CALLBACK'
 					}
 				}).success(function(data) {
 					//获取本条新闻内容
@@ -388,26 +378,22 @@ app.controller("detailCtrl", function($scope, $http, $state) {
 					//加载完成后,隐藏加载中
 					$scope.isShow = true;
 				});
-				$http.get("http://route.showapi.com/109-35?", {
+				$http.jsonp("news2.php", {
 					params: {
 						page: page + 1,
 						channelId: $scope.channelId,
-						showapi_appid:'29306',
-        				showapi_sign:'545df128a7c84b279611932939d9a064'
-
+						callback: 'JSON_CALLBACK'
 					}
 				}).success(function(data) {
 					//获取下一条新闻内容
 					$scope.newnext = data.showapi_res_body.pagebean.contentlist[0];
 				});
 			} else {
-			$http.get("http://route.showapi.com/109-35?", {
+				$http.jsonp("news2.php", {
 					params: {
 						page: page,
 						channelId: $scope.channelId,
-						showapi_appid:'29306',
-        				showapi_sign:'545df128a7c84b279611932939d9a064'
-
+						callback: 'JSON_CALLBACK'
 					}
 				}).success(function(data) {
 					//获取本条新闻内容
